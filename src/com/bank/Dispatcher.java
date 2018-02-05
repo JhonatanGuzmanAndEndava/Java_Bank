@@ -10,22 +10,33 @@ public final class Dispatcher {
     private ArrayDeque<Director> directors = new ArrayDeque<>();
 
 
-    public AgentSupplier attend(){
-        AgentSupplier supplier = null;
+    private Agent provideAgent(){
         Agent agent = null;
 
         if (!this.cashiers.isEmpty())
-            agent = this.cashiers.getFirst();
+            agent = this.cashiers.removeFirst();
 
         else if (!this.supervisors.isEmpty())
-            agent = this.supervisors.getFirst();
+            agent = this.supervisors.removeFirst();
 
         else if (!this.directors.isEmpty())
-            agent = this.directors.getFirst();
+            agent = this.directors.removeFirst();
 
-        supplier = (agent != null)? new AgentSupplier(agent) : supplier;
+        return agent;
+    }
 
-        return supplier;
+
+    public AgentSupplier attend(){
+        Agent agent = provideAgent();
+        boolean wasAnAgentRetrieved = agent != null;
+
+        while (!wasAnAgentRetrieved) {
+            System.out.print("");
+            agent = provideAgent();
+            wasAnAgentRetrieved = agent != null;
+        }
+
+        return new AgentSupplier(agent);
     }
 
 

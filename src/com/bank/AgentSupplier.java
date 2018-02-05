@@ -19,7 +19,9 @@ public class AgentSupplier implements Supplier<Agent> {
 
     @Override
     public Agent get() {
-        System.out.println("started to serve client " + clientId);
+        System.out.println("The " + this.agent.getClass().getSimpleName() +
+                " " + this.agent.getEmployeeID() + " has started to serve client " + this.clientId);
+
         try {
             Thread.sleep(this.secondsToSleep * 1000);
         }
@@ -27,6 +29,9 @@ public class AgentSupplier implements Supplier<Agent> {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.println("It took " + this.secondsToSleep + " seconds to attend " +
+                "client " + this.clientId);
 
         return this.agent;
     }
