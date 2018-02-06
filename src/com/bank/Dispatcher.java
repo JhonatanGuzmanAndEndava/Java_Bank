@@ -1,6 +1,11 @@
 package com.bank;
 
+import com.customer.Customer;
+
 import java.util.ArrayDeque;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public final class Dispatcher {
@@ -8,6 +13,31 @@ public final class Dispatcher {
     private ArrayDeque<Cashier> cashiers = new ArrayDeque<>();
     private ArrayDeque<Supervisor> supervisors = new ArrayDeque<>();
     private ArrayDeque<Director> directors = new ArrayDeque<>();
+    private ExecutorService threadsPool;
+
+
+    public Dispatcher(int threadsNumber){
+        int numberOfCashiers = 5;
+        int numberOfSupervisors = 3;
+        int numberOfDirectors = 2;
+
+        for (int i = 0; i < numberOfCashiers; i++)
+            this.addAgent(new Cashier(i+1));
+
+        for (int j = 0; j < numberOfSupervisors; j++)
+            this.addAgent(new Supervisor(j+1));
+
+        for (int k = 0; k < numberOfDirectors; k++)
+            this.addAgent(new Director(k+1));
+
+        this.threadsPool = Executors.newFixedThreadPool(threadsNumber);
+    }
+
+
+    public void shutdownExecution(){
+        this.threadsPool.shutdown();
+    }
+
 
 
     private Agent provideAgent(){
@@ -26,7 +56,7 @@ public final class Dispatcher {
     }
 
 
-    public AgentSupplier attend(){
+    public void attend(Customer customer){
         Agent agent = provideAgent();
         boolean wasAnAgentRetrieved = agent != null;
 
@@ -36,7 +66,10 @@ public final class Dispatcher {
             wasAnAgentRetrieved = agent != null;
         }
 
-        return new AgentSupplier(agent);
+        AgentSupplier agentSupplier = new AgentSupplier(agent);
+        agentSupplier.setClientId(customer.getCustomerId());
+        CompletableFuture.supplyAsync(agentSupplier, threadsPool).
+                thenAccept(agentFromFuture -> this.addAgent(agentFromFuture));
     }
 
 
