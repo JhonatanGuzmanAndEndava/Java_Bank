@@ -39,21 +39,13 @@ public class AgentSupplier implements Supplier<Agent> {
         return this.agent;
     }
 
-
+    /**
+     * Assigns an int number from [10, 15] of seconds to put the thread to sleep.
+     */
     private void setSecondsToSleep() {
         Random randomNumber = new Random();
         int seconds = randomNumber.nextInt(6) + 10;
         this.secondsToSleep = new Long(seconds);
-    }
-
-
-    public long getSecondsToSleep(){
-        return this.secondsToSleep;
-    }
-
-
-    public Customer getClient() {
-        return this.client;
     }
 
 

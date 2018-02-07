@@ -16,6 +16,9 @@ public final class Dispatcher {
     private ExecutorService threadsPool;
 
 
+    /**
+     * @param threadsNumber number of threads to run in the application
+     */
     public Dispatcher(int threadsNumber){
         int numberOfCashiers = 5;
         int numberOfSupervisors = 3;
@@ -33,12 +36,17 @@ public final class Dispatcher {
         this.threadsPool = Executors.newFixedThreadPool(threadsNumber);
     }
 
-
+    /**
+     * suhtdowns the threadsPool
+     */
     public void shutdownExecution(){
         this.threadsPool.shutdown();
     }
 
-
+    /**
+     * Gets an Agent from the three diferent object pools (cashiers, supervisors, directors).
+     * @return any object of Cashier, Supervisor or Director type.
+     */
     private synchronized Agent provideAgent(){
         Agent agent = null;
 
@@ -55,6 +63,10 @@ public final class Dispatcher {
     }
 
 
+    /**
+     * Address a thread an Agent type object to the customer given as argument.
+     * @param customer
+     */
     public void attend(Customer customer){
         Agent agent = provideAgent();
         boolean wasAnAgentRetrieved = agent != null;
@@ -71,6 +83,10 @@ public final class Dispatcher {
     }
 
 
+    /**
+     * Adds the agent given as argument to the corresponding object pool
+     * @param agent
+     */
     private void addAgent(Agent agent){
 
         if (agent instanceof Cashier)

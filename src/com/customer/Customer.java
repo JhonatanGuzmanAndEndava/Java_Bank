@@ -23,17 +23,7 @@ public class Customer {
     }
 
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-
     public String getReason() {
         return reason;
-    }
-
-
-    public void setReason(String reason) {
-        this.reason = reason;
     }
 }
