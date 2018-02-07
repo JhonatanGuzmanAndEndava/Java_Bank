@@ -39,7 +39,6 @@ public final class Dispatcher {
     }
 
 
-
     private synchronized Agent provideAgent(){
         Agent agent = null;
 
@@ -72,7 +71,7 @@ public final class Dispatcher {
     }
 
 
-    public void addAgent(Agent agent){
+    private void addAgent(Agent agent){
 
         if (agent instanceof Cashier)
             this.cashiers.addLast((Cashier) agent);

@@ -7,14 +7,14 @@ public class Customer {
 
     private int customerId;
     private String reason;
-    private String[] reasons = {"Deposit", "withdrawal", "issue"};
+    private final String[] REASONS = {"deposit", "withdrawal", "issue"};
 
 
     public Customer(int id){
         this.customerId = id;
         Random randomInt = new Random();
-        int numberOfReasons = reasons.length;
-        this.reason = this.reasons[randomInt.nextInt(numberOfReasons)];
+        int numberOfReasons = REASONS.length;
+        this.reason = this.REASONS[randomInt.nextInt(numberOfReasons)];
     }
 
 
