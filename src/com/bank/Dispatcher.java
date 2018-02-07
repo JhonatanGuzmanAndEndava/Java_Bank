@@ -40,7 +40,7 @@ public final class Dispatcher {
 
 
 
-    private Agent provideAgent(){
+    private synchronized Agent provideAgent(){
         Agent agent = null;
 
         if (!this.cashiers.isEmpty())
@@ -61,7 +61,6 @@ public final class Dispatcher {
         boolean wasAnAgentRetrieved = agent != null;
 
         while (!wasAnAgentRetrieved) {
-            System.out.print("");
             agent = provideAgent();
             wasAnAgentRetrieved = agent != null;
         }
