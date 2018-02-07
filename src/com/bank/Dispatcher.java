@@ -67,7 +67,7 @@ public final class Dispatcher {
         }
 
         AgentSupplier agentSupplier = new AgentSupplier(agent);
-        agentSupplier.setClientId(customer.getCustomerId());
+        agentSupplier.setClient(customer);
         CompletableFuture.supplyAsync(agentSupplier, threadsPool).
                 thenAccept(agentFromFuture -> this.addAgent(agentFromFuture));
     }

@@ -1,5 +1,7 @@
 package com.bank;
 
+import com.customer.Customer;
+
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -7,7 +9,7 @@ import java.util.function.Supplier;
 public class AgentSupplier implements Supplier<Agent> {
 
     private Agent agent;
-    private int clientId;
+    private Customer client;
     private long secondsToSleep;
 
 
@@ -20,7 +22,8 @@ public class AgentSupplier implements Supplier<Agent> {
     @Override
     public Agent get() {
         System.out.println("The " + this.agent.getClass().getSimpleName() +
-                " " + this.agent.getEmployeeID() + " has started to serve client " + this.clientId);
+                " " + this.agent.getEmployeeID() + " has started to serve client " + this.client.getCustomerId() +
+                " for a " + this.client.getReason());
 
         try {
             Thread.sleep(this.secondsToSleep * 1000);
@@ -31,7 +34,7 @@ public class AgentSupplier implements Supplier<Agent> {
         }
 
         System.out.println("It took " + this.secondsToSleep + " seconds to attend " +
-                "client " + this.clientId);
+                "client " + this.client.getCustomerId());
 
         return this.agent;
     }
@@ -49,12 +52,12 @@ public class AgentSupplier implements Supplier<Agent> {
     }
 
 
-    public int getClientId() {
-        return clientId;
+    public Customer getClient() {
+        return this.client;
     }
 
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setClient(Customer client) {
+        this.client = client;
     }
 }
