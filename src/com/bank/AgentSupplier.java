@@ -5,7 +5,6 @@ import com.customer.Customer;
 import java.util.Random;
 import java.util.function.Supplier;
 
-
 public class AgentSupplier implements Supplier<Agent> {
 
     private Agent agent;
@@ -18,23 +17,33 @@ public class AgentSupplier implements Supplier<Agent> {
         this.setSecondsToSleep();
     }
 
-
     @Override
     public Agent get() {
-        System.out.println("The " + this.agent.getClass().getSimpleName() +
-                " " + this.agent.getEmployeeID() + " has started to serve client " + this.client.getCustomerId() +
-                " for a " + this.client.getReason());
 
         try {
+            System.out.println(attendingClientMsg());
             Thread.sleep(this.secondsToSleep * 1000);
-        }
+            switch(this.client.getReason()) {
+                case DEPOSIT:
+                    client.setBalance(this.client.getBalance() + this.client.getMoneyForTransaction());
+                    client.setMoneyForTransaction(0);
+                    break;
 
+                case WITHDRAWAL:
+                    client.setBalance(this.client.getBalance() - this.client.getMoneyForTransaction() < 0 ?
+                            this.client.getBalance() : this.client.getBalance() - this.client.getMoneyForTransaction());
+                    client.setMoneyForTransaction(0);
+                    break;
+
+                case ISSUE:
+                    //TODO
+                    break;
+            }
+            System.out.println(attendedClientMsg());
+        }
         catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println("It took " + this.secondsToSleep + " seconds to attend " +
-                "client " + this.client.getCustomerId());
 
         return this.agent;
     }
@@ -48,8 +57,18 @@ public class AgentSupplier implements Supplier<Agent> {
         this.secondsToSleep = new Long(seconds);
     }
 
-
     public void setClient(Customer client) {
         this.client = client;
+    }
+
+    private String attendingClientMsg() {
+        return "The " + this.agent.getClass().getSimpleName() +
+                " " + this.agent.getEmployeeID() + " has started to serve client " + this.client.getCustomerId() +
+                " for a " + this.client.getReason();
+    }
+
+    private String attendedClientMsg() {
+        return "It took " + this.secondsToSleep + " seconds to attend " +
+                "client " + this.client.getCustomerId();
     }
 }

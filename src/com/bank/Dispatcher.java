@@ -7,14 +7,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 public final class Dispatcher {
 
     private ArrayDeque<Cashier> cashiers = new ArrayDeque<>();
     private ArrayDeque<Supervisor> supervisors = new ArrayDeque<>();
     private ArrayDeque<Director> directors = new ArrayDeque<>();
     private ExecutorService threadsPool;
-
 
     /**
      * @param threadsNumber number of threads to run in the application

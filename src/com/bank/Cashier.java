@@ -1,13 +1,10 @@
 package com.bank;
 
-
 public class Cashier extends Agent {
 
-
     public Cashier(int id){
-        this.employeeID = id;
+        super(id);
     }
-
 
     @Override
     public void serve() {

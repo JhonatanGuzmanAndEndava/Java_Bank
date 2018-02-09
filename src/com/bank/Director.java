@@ -1,13 +1,8 @@
 package com.bank;
 
-
 public class Director extends Agent {
 
-
-    public Director(int id){
-        this.employeeID = id;
-    }
-
+    public Director(int id){ super(id); }
 
     @Override
     public void serve() {

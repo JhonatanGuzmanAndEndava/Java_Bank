@@ -1,13 +1,8 @@
 package com.bank;
 
-
 public class Supervisor extends Agent {
 
-
-    public Supervisor(int id){
-        this.employeeID = id;
-    }
-
+    public Supervisor(int id){ super(id); }
 
     @Override
     public void serve() {
